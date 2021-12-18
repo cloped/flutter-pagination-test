@@ -1,4 +1,6 @@
 import 'package:english_words/english_words.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:cupertino_list_tile/cupertino_list_tile.dart';
 import 'package:flutter/material.dart';
 
 class ListItems extends StatefulWidget {
@@ -11,7 +13,6 @@ class ListItems extends StatefulWidget {
 class _ListItemsState extends State<ListItems> {
   List<String> items = [];
   bool loading = false;
-  final _biggerFont = const TextStyle(fontSize: 18);
   final ScrollController _scrollController = ScrollController();
 
   fetch() async {
@@ -37,17 +38,20 @@ class _ListItemsState extends State<ListItems> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        color: Colors.blueGrey,
+        color: Colors.red,
       ),
       padding: const EdgeInsets.symmetric(vertical: 500),
     );
   }
 
   Widget _buildRow(int index) {
-    return ListTile(
+    return CupertinoListTile(
+      leading: null,
+      trailing: null,
+      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       title: Text(
         'Index:$index\t-\t${items[index]}',
-        style: _biggerFont,
+        style: const TextStyle(fontSize: 18),
       ),
     );
   }
@@ -57,10 +61,6 @@ class _ListItemsState extends State<ListItems> {
       return _renderHeader();
     }
     return _buildRow(index - 1);
-  }
-
-  Widget _buildSeparator(BuildContext context, int index) {
-    return const Divider();
   }
 
   @override
@@ -86,20 +86,16 @@ class _ListItemsState extends State<ListItems> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Teste paginação 300ms 10 itens'),
-      ),
-      body: LayoutBuilder(builder: (context, constraints) {
+    return CupertinoPageScaffold(
+      child: LayoutBuilder(builder: (context, constraints) {
         {
           if (items.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return Scrollbar(
-              child: ListView.separated(
+              child: ListView.builder(
                   controller: _scrollController,
                   itemBuilder: _buildItems,
-                  separatorBuilder: _buildSeparator,
                   itemCount: items.length + 1),
             );
           }
