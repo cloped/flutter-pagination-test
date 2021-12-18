@@ -46,8 +46,7 @@ class _ListItemsState extends State<ListItems> {
 
   Widget _buildRow(int index) {
     return CupertinoListTile(
-      leading: null,
-      trailing: null,
+      trailing: const SizedBox(),
       contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       title: Text(
         'Index:$index\t-\t${items[index]}',
