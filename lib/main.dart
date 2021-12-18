@@ -39,7 +39,7 @@ class _MyPageStateState extends State<MyPageState> {
       loading = true;
     });
 
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     Iterable<WordPair> temp = generateWordPairs().take(15);
     List<String> newData = temp.map((e) => e.asString).toList();
@@ -88,9 +88,10 @@ class _MyPageStateState extends State<MyPageState> {
     super.initState();
     fetch();
     _scrollController.addListener(() {
-      double position = 600 + _scrollController.position.pixels;
+      double position = _scrollController.position.pixels;
       double finalPosition = _scrollController.position.maxScrollExtent;
-      if (!loading && position >= finalPosition) {
+      double percentage = 1 - position / finalPosition;
+      if (!loading && percentage < 0.3) {
         fetch();
       }
     });
@@ -107,7 +108,7 @@ class _MyPageStateState extends State<MyPageState> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Teste paginação 200ms 10 itens'),
+        title: const Text('Teste paginação 300ms 10 itens'),
       ),
       body: LayoutBuilder(builder: (context, constraints) {
         {
